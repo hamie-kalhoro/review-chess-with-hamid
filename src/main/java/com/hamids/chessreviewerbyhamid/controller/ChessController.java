@@ -1,7 +1,11 @@
 package com.hamids.chessreviewerbyhamid.controller;
 
+import com.hamids.chessreviewerbyhamid.dto.AnalysisRequest;
 import com.hamids.chessreviewerbyhamid.dto.AnalysisResponse;
+import com.hamids.chessreviewerbyhamid.dto.GameAnalysisRequest;
+import com.hamids.chessreviewerbyhamid.dto.GameAnalysisResponse;
 import com.hamids.chessreviewerbyhamid.service.ChessAnalysisService;
+import com.hamids.chessreviewerbyhamid.service.GameAnalysisService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
