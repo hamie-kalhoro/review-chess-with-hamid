@@ -1,9 +1,9 @@
 package com.hamids.chessreviewerbyhamid.service;
 
-import com.hamids.chessreviewer.config.StockfishConfig;
-import com.hamids.chessreviewer.dto.AnalysisRequest;
-import com.hamids.chessreviewer.dto.AnalysisResponse;
-import com.hamids.chessreviewer.dto.StockfishApiResponse;
+import com.hamids.chessreviewerbyhamid.config.StockfishConfig;
+import com.hamids.chessreviewerbyhamid.dto.AnalysisRequest;
+import com.hamids.chessreviewerbyhamid.dto.AnalysisResponse;
+import com.hamids.chessreviewerbyhamid.dto.StockfishApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
