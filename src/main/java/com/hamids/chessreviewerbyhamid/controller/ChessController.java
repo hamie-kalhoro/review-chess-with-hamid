@@ -1,6 +1,5 @@
 package com.hamids.chessreviewerbyhamid.controller;
 
-import com.hamids.chessreviewerbyhamid.dto.AnalysisRequest;
 import com.hamids.chessreviewerbyhamid.dto.AnalysisResponse;
 import com.hamids.chessreviewerbyhamid.service.ChessAnalysisService;
 import jakarta.validation.Valid;
