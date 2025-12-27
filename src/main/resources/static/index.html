@@ -1,127 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Reviewer by Hamid</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-<div class="app-container">
-    <header>
-        <div class="logo">
-            <i class="fas fa-chess-knight"></i>
-            <h1>Chess Reviewer</h1>
-        </div>
-        <div class="header-controls">
-            <button id="themeToggle" class="icon-btn" title="Toggle Dark/Light Mode">
-                <i class="fas fa-moon"></i>
-            </button>
-            <div class="dropdown">
-                <button class="icon-btn" title="Board Theme">
-                    <i class="fas fa-palette"></i>
-                </button>
-                <div class="dropdown-content" id="boardThemes">
-                    <a href="#" data-theme="classic">Classic</a>
-                    <a href="#" data-theme="green">Green</a>
-                    <a href="#" data-theme="blue">Blue</a>
-                    <a href="#" data-theme="brown">Brown</a>
-                    <a href="#" data-theme="purple">Purple</a>
-                    <a href="#" data-theme="grey">Grey</a>
-                </div>
-            </div>
-        </div>
-    </header>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Chess Reviewer by Hamid</title>-->
+<!--    <link rel="stylesheet" href="css/styles.css">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="app-container">-->
+<!--    <header>-->
+<!--        <div class="logo">-->
+<!--            <i class="fas fa-chess-knight"></i>-->
+<!--            <h1>Chess Reviewer</h1>-->
+<!--        </div>-->
+<!--        <div class="header-controls">-->
+<!--            <button id="themeToggle" class="icon-btn" title="Toggle Dark/Light Mode">-->
+<!--                <i class="fas fa-moon"></i>-->
+<!--            </button>-->
+<!--            <div class="dropdown">-->
+<!--                <button class="icon-btn" title="Board Theme">-->
+<!--                    <i class="fas fa-palette"></i>-->
+<!--                </button>-->
+<!--                <div class="dropdown-content" id="boardThemes">-->
+<!--                    <a href="#" data-theme="classic">Classic</a>-->
+<!--                    <a href="#" data-theme="green">Green</a>-->
+<!--                    <a href="#" data-theme="blue">Blue</a>-->
+<!--                    <a href="#" data-theme="brown">Brown</a>-->
+<!--                    <a href="#" data-theme="purple">Purple</a>-->
+<!--                    <a href="#" data-theme="grey">Grey</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </header>-->
 
-    <main>
-        <div class="board-section">
-            <div class="eval-bar">
-                <div class="eval-fill" id="evalFill"></div>
-                <span class="eval-text" id="evalText">0.0</span>
-            </div>
-            <div class="chess-board-container">
-                <div class="chess-board" id="chessBoard"></div>
-                <div class="board-coordinates">
-                    <div class="files">
-                        <span>a</span><span>b</span><span>c</span><span>d</span>
-                        <span>e</span><span>f</span><span>g</span><span>h</span>
-                    </div>
-                    <div class="ranks">
-                        <span>8</span><span>7</span><span>6</span><span>5</span>
-                        <span>4</span><span>3</span><span>2</span><span>1</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--    <main>-->
+<!--        <div class="board-section">-->
+<!--            <div class="eval-bar">-->
+<!--                <div class="eval-fill" id="evalFill"></div>-->
+<!--                <span class="eval-text" id="evalText">0.0</span>-->
+<!--            </div>-->
+<!--            <div class="chess-board-container">-->
+<!--                <div class="chess-board" id="chessBoard"></div>-->
+<!--                <div class="board-coordinates">-->
+<!--                    <div class="files">-->
+<!--                        <span>a</span><span>b</span><span>c</span><span>d</span>-->
+<!--                        <span>e</span><span>f</span><span>g</span><span>h</span>-->
+<!--                    </div>-->
+<!--                    <div class="ranks">-->
+<!--                        <span>8</span><span>7</span><span>6</span><span>5</span>-->
+<!--                        <span>4</span><span>3</span><span>2</span><span>1</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div class="controls-section">
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="fen">FEN Analysis</button>
-                <button class="tab-btn" data-tab="pgn">PGN Game</button>
-            </div>
+<!--        <div class="controls-section">-->
+<!--            <div class="tabs">-->
+<!--                <button class="tab-btn active" data-tab="fen">FEN Analysis</button>-->
+<!--                <button class="tab-btn" data-tab="pgn">PGN Game</button>-->
+<!--            </div>-->
 
-            <div class="tab-content active" id="fenTab">
-                <div class="input-group">
-                    <label for="fenInput">FEN Position</label>
-                    <input type="text" id="fenInput"
-                           placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-                           value="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1">
-                </div>
-                <div class="input-group">
-                    <label for="depthInput">Analysis Depth</label>
-                    <input type="number" id="depthInput" value="15" min="1" max="30">
-                </div>
-                <button class="btn primary" id="analyzeFen">
-                    <i class="fas fa-search"></i> Analyze Position
-                </button>
-            </div>
+<!--            <div class="tab-content active" id="fenTab">-->
+<!--                <div class="input-group">-->
+<!--                    <label for="fenInput">FEN Position</label>-->
+<!--                    <input type="text" id="fenInput"-->
+<!--                           placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"-->
+<!--                           value="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1">-->
+<!--                </div>-->
+<!--                <div class="input-group">-->
+<!--                    <label for="depthInput">Analysis Depth</label>-->
+<!--                    <input type="number" id="depthInput" value="15" min="1" max="30">-->
+<!--                </div>-->
+<!--                <button class="btn primary" id="analyzeFen">-->
+<!--                    <i class="fas fa-search"></i> Analyze Position-->
+<!--                </button>-->
+<!--            </div>-->
 
-            <div class="tab-content" id="pgnTab">
-                <div class="input-group">
-                    <label for="pgnInput">PGN Game</label>
-                    <textarea id="pgnInput" rows="8"
-                              placeholder="Paste your PGN here..."></textarea>
-                </div>
-                <div class="input-group">
-                    <label for="pgnDepthInput">Analysis Depth</label>
-                    <input type="number" id="pgnDepthInput" value="15" min="1" max="30">
-                </div>
-                <button class="btn primary" id="analyzeGame">
-                    <i class="fas fa-chess"></i> Analyze Game
-                </button>
-            </div>
+<!--            <div class="tab-content" id="pgnTab">-->
+<!--                <div class="input-group">-->
+<!--                    <label for="pgnInput">PGN Game</label>-->
+<!--                    <textarea id="pgnInput" rows="8"-->
+<!--                              placeholder="Paste your PGN here..."></textarea>-->
+<!--                </div>-->
+<!--                <div class="input-group">-->
+<!--                    <label for="pgnDepthInput">Analysis Depth</label>-->
+<!--                    <input type="number" id="pgnDepthInput" value="15" min="1" max="30">-->
+<!--                </div>-->
+<!--                <button class="btn primary" id="analyzeGame">-->
+<!--                    <i class="fas fa-chess"></i> Analyze Game-->
+<!--                </button>-->
+<!--            </div>-->
 
-            <div class="analysis-result" id="analysisResult">
-                <h3>Analysis Result</h3>
-                <div class="result-content" id="resultContent">
-                    <p class="placeholder">Enter a position or game to analyze</p>
-                </div>
-            </div>
+<!--            <div class="analysis-result" id="analysisResult">-->
+<!--                <h3>Analysis Result</h3>-->
+<!--                <div class="result-content" id="resultContent">-->
+<!--                    <p class="placeholder">Enter a position or game to analyze</p>-->
+<!--                </div>-->
+<!--            </div>-->
 
-            <div class="game-navigation" id="gameNavigation" style="display: none;">
-                <button class="nav-btn" id="firstMove" title="First Move"><i class="fas fa-fast-backward"></i></button>
-                <button class="nav-btn" id="prevMove" title="Previous Move"><i class="fas fa-step-backward"></i></button>
-                <span class="move-counter" id="moveCounter">0 / 0</span>
-                <button class="nav-btn" id="nextMove" title="Next Move"><i class="fas fa-step-forward"></i></button>
-                <button class="nav-btn" id="lastMove" title="Last Move"><i class="fas fa-fast-forward"></i></button>
-            </div>
-        </div>
+<!--            <div class="game-navigation" id="gameNavigation" style="display: none;">-->
+<!--                <button class="nav-btn" id="firstMove" title="First Move"><i class="fas fa-fast-backward"></i></button>-->
+<!--                <button class="nav-btn" id="prevMove" title="Previous Move"><i class="fas fa-step-backward"></i></button>-->
+<!--                <span class="move-counter" id="moveCounter">0 / 0</span>-->
+<!--                <button class="nav-btn" id="nextMove" title="Next Move"><i class="fas fa-step-forward"></i></button>-->
+<!--                <button class="nav-btn" id="lastMove" title="Last Move"><i class="fas fa-fast-forward"></i></button>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div class="moves-panel" id="movesPanel" style="display: none;">
-            <h3>Move List</h3>
-            <div class="moves-list" id="movesList"></div>
-            <div class="game-summary" id="gameSummary"></div>
-        </div>
-    </main>
+<!--        <div class="moves-panel" id="movesPanel" style="display: none;">-->
+<!--            <h3>Move List</h3>-->
+<!--            <div class="moves-list" id="movesList"></div>-->
+<!--            <div class="game-summary" id="gameSummary"></div>-->
+<!--        </div>-->
+<!--    </main>-->
 
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner"></div>
-        <p>Analyzing...</p>
-    </div>
-</div>
+<!--    <div class="loading-overlay" id="loadingOverlay">-->
+<!--        <div class="spinner"></div>-->
+<!--        <p>Analyzing...</p>-->
+<!--    </div>-->
+<!--</div>-->
 
-<script src="js/chess.js"></script>
-<script src="js/app.js"></script>
-</body>
-</html>
+<!--<script src="js/chess.js"></script>-->
+<!--<script src="js/app.js"></script>-->
+<!--</body>-->
+<!--</html>-->
