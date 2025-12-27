@@ -1,10 +1,10 @@
 package com.hamids.chessreviewerbyhamid.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnalysisResponse {
@@ -12,6 +12,7 @@ public class AnalysisResponse {
     private String bestMove;
     private Integer evaluation;
     private String continuation;
-    private String mate;
+    private Integer mate;
+    private String ponder;
     private String message;
 }
