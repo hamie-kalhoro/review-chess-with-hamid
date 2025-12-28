@@ -1,14 +1,16 @@
 package com.hamids.chessreviewerbyhamid.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AnalysisRequest {
-    @NotBlank(message = "FEN position is required")
     private String fen;
-
-    private Integer depth = 15;
-
-    private String mode = "bestmove";
+    private Integer depth;
+    private String mode;
 }

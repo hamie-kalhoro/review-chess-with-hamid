@@ -21,10 +21,10 @@ public class ChessController {
     private final GameAnalysisService gameAnalysisService;
 
     @PostMapping("/analyze")
-    public ResponseEntity<AnalysisResponse> analyzePosition(@Valid @RequestBody AnalysisRequest request) {
-        AnalysisResponse response = chessAnalysisService.analyzePosition(request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<AnalysisResponse> analyzePositionPost(@Valid @RequestBody AnalysisRequest request) {
+        return ResponseEntity.ok(chessAnalysisService.analyzePosition(request));
     }
+
 
     @PostMapping("/analyze-game")
     public ResponseEntity<GameAnalysisResponse> analyzeGame(@Valid @RequestBody GameAnalysisRequest request) {

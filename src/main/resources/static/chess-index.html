@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Reviewer Pro by Hamid</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         :root {
             --bg-primary: #0f0f23;
@@ -29,6 +29,7 @@
             --inaccuracy: #f7c631;
             --mistake: #e6912c;
             --blunder: #ca3431;
+            --excellent: #96bc4b;
             --miss: #db5c3d;
 
             --eval-white: #ffffff;
@@ -42,6 +43,7 @@
             --text-primary: #0f172a;
             --text-secondary: #64748b;
             --border-color: #e2e8f0;
+            --navbar-bg: rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -56,17 +58,42 @@
             color: var(--text-primary);
             min-height: 100vh;
             transition: all 0.3s ease;
+            padding: 0.75rem;
+            margin-top: 80px; /* Space for fixed header */
         }
 
-        /* Header */
+        /* Enhanced glass/water glass effect for header */
         header {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1.25rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow);
+            background: rgba(26, 26, 46, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            position: fixed;
+            top: 0.75rem;
+            left: 0.75rem;
+            right: 0.75rem;
+            z-index: 1000;
+            box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.3),
+                    0 0 0 1px rgba(255, 255, 255, 0.05),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            transition: all 0.3s ease;
+            max-width: calc(100% - 1.5rem);
+            margin: 0 auto;
+        }
+
+        /* Enhanced light theme header with better glass effect */
+        [data-theme="light"] header {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border-color: rgba(0, 0, 0, 0.08);
+            box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.1),
+                    0 0 0 1px rgba(0, 0, 0, 0.05),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         .header-content {
@@ -75,6 +102,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+        }
+
+        /* Subtle gradient line at top for enhanced glass effect */
+        .header-content::before {
+            content: '';
+            position: absolute;
+            top: -1rem;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(59, 130, 246, 0.3),
+            transparent);
+            z-index: 1;
         }
 
         .logo {
@@ -106,8 +149,8 @@
         .icon-btn {
             width: 42px;
             height: 42px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
+            background: rgba(22, 33, 62, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             color: var(--text-primary);
             cursor: pointer;
@@ -116,6 +159,8 @@
             justify-content: center;
             transition: all 0.2s;
             font-size: 1.1rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .icon-btn:hover {
@@ -123,20 +168,29 @@
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
         }
 
-        /* Main Layout */
+        [data-theme="light"] .icon-btn {
+            background: rgba(241, 245, 249, 0.7);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .icon-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
         main {
             max-width: 1600px;
-            margin: 0 auto;
-            padding: 2rem;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
             display: grid;
-            grid-template-columns: auto 1fr auto;
+            grid-template-columns: auto 1fr 380px;
             gap: 2rem;
             align-items: start;
         }
 
-        /* Board Section */
         .board-container {
             display: flex;
             gap: 1rem;
@@ -169,23 +223,27 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-90deg);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: var(--text-primary);
             background: var(--bg-secondary);
-            padding: 4px 12px;
+            padding: 4px 8px;
             border-radius: 6px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            border: 1px solid var(--border-color);
         }
 
-        /* Chess Board with Glow Effect */
+
+        /* UPDATED: Board wrapper with coordinate labels */
         .board-wrapper {
             position: relative;
-            padding: 20px;
             background: var(--bg-secondary);
             border-radius: 20px;
+            border: 2px dashed rgb(59, 130, 246);
             box-shadow: var(--shadow);
+            padding: 40px 30px 20px 20px; /* More padding for coordinates */
         }
 
         .board-glow {
@@ -234,9 +292,41 @@
             50% { filter: blur(25px); }
         }
 
+        /* UPDATED: Chess board with coordinate system */
         .chess-board {
             width: 520px;
             height: 520px;
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            grid-template-rows: repeat(9, 1fr);
+            position: relative;
+        }
+
+        /* Coordinate labels */
+        .board-coordinate {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            user-select: none;
+        }
+
+        /* File coordinates (a-h) at bottom */
+        .file-coordinate {
+            grid-row: 9;
+        }
+
+        /* Rank coordinates (1-8) on left side */
+        .rank-coordinate {
+            grid-column: 1;
+        }
+
+        /* The actual squares grid */
+        .squares-grid {
+            grid-column: 2 / 10;
+            grid-row: 1 / 9;
             display: grid;
             grid-template-columns: repeat(8, 1fr);
             grid-template-rows: repeat(8, 1fr);
@@ -269,14 +359,44 @@
             filter: brightness(1.1);
         }
 
+        .square.selected {
+            box-shadow: inset 0 0 0 3px rgba(59, 130, 246, 0.7);
+        }
+
+        .square.possible-move::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: rgba(59, 130, 246, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .square.possible-capture::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 3px solid rgba(220, 38, 38, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* UPDATED: Piece styling to match screenshot theme */
         .piece {
-            width: 85%;
-            height: 85%;
+            width: 70%;
+            height: 70%;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             transition: transform 0.2s;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            cursor: grab;
+            user-select: none;
+        }
+
+        .piece:active {
+            cursor: grabbing;
+            transform: scale(1.1);
         }
 
         .square:hover .piece {
@@ -286,19 +406,21 @@
         .square.highlight-from::after {
             content: '';
             position: absolute;
-            inset: 8px;
-            background: rgba(255, 255, 0, 0.4);
+            inset: 4px;
+            background: rgba(255, 255, 0, 0.3);
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 0, 0.7);
+            border: 3px solid rgba(255, 255, 0, 0.6);
+            z-index: 0;
         }
 
         .square.highlight-to::after {
             content: '';
             position: absolute;
-            inset: 8px;
-            background: rgba(155, 199, 0, 0.4);
+            inset: 4px;
+            background: rgba(155, 199, 0, 0.3);
             border-radius: 50%;
-            border: 3px solid rgba(155, 199, 0, 0.8);
+            border: 3px solid rgba(155, 199, 0, 0.7);
+            z-index: 0;
         }
 
         .move-badge {
@@ -318,7 +440,68 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
-        /* Controls Panel */
+        /* Updated turn indicator position */
+        .turn-indicator {
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10;
+            min-width: 300px;
+            justify-content: center;
+        }
+
+        .turn-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .turn-section .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .turn-section .value {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .turn-section.white-chance .value { color: #ffffff; }
+        .turn-section.black-chance .value { color: #64748b; }
+        .turn-section.current-turn .value { color: var(--accent-color); }
+
+
+        .turn-indicator.white {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: rgba(22, 33, 62, 0.8);
+        }
+
+        .turn-indicator.black {
+            border-color: #64748b;
+            color: #64748b;
+            background: rgba(22, 33, 62, 0.8);
+        }
+
+        [data-theme="light"] .turn-indicator {
+            background: rgba(241, 245, 249, 0.8);
+        }
+
         .controls-panel {
             width: 420px;
             display: flex;
@@ -326,12 +509,27 @@
             gap: 1.5rem;
         }
 
+        /* Glass effect for cards */
         .card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+            background: rgba(26, 26, 46, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: var(--shadow);
+            box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.3),
+                    0 0 0 1px rgba(255, 255, 255, 0.05),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        [data-theme="light"] .card {
+            background: rgba(255, 255, 255, 0.65);
+            border-color: rgba(0, 0, 0, 0.08);
+            box-shadow:
+                    0 8px 32px rgba(0, 0, 0, 0.1),
+                    0 0 0 1px rgba(0, 0, 0, 0.05),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         .card h3 {
@@ -341,29 +539,48 @@
             color: var(--text-primary);
         }
 
+        /* Glass effect for tabs */
         .tabs {
             display: flex;
             gap: 0.5rem;
             margin-bottom: 1rem;
+            background: rgba(22, 33, 62, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.25rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        [data-theme="light"] .tabs {
+            background: rgba(241, 245, 249, 0.7);
+            border-color: rgba(0, 0, 0, 0.08);
         }
 
         .tab-btn {
             flex: 1;
             padding: 0.75rem 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
             color: var(--text-secondary);
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.2s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .tab-btn.active {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-color);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+
+        [data-theme="light"] .tab-btn.active {
+            background: rgba(59, 130, 246, 0.15);
         }
 
         .tab-content {
@@ -386,30 +603,98 @@
             font-size: 0.875rem;
         }
 
+        /* Glass effect for inputs */
         .input-group input,
         .input-group textarea {
             width: 100%;
             padding: 0.75rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
+            background: rgba(22, 33, 62, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             color: var(--text-primary);
             font-family: 'Courier New', monospace;
             font-size: 0.875rem;
             transition: all 0.2s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        [data-theme="light"] .input-group input,
+        [data-theme="light"] .input-group textarea {
+            background: rgba(241, 245, 249, 0.7);
+            border-color: rgba(0, 0, 0, 0.08);
         }
 
         .input-group input:focus,
         .input-group textarea:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
+        /* Glass effect for buttons */
         .btn {
             width: 100%;
             padding: 0.875rem 1.5rem;
-            background: var(--accent-color);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(139, 92, 246, 0.8));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                    0 8px 32px rgba(59, 130, 246, 0.4),
+                    0 4px 12px rgba(59, 130, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        [data-theme="light"] .btn {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0.9));
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Special button for rearranging position with RGB effect */
+        .rgb-btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg,
+            rgba(255, 0, 0, 0.8),
+            rgba(0, 255, 0, 0.8),
+            rgba(0, 0, 255, 0.8));
+            background-size: 200% 200%;
             color: white;
             border: none;
             border-radius: 10px;
@@ -420,13 +705,50 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: rgb-shift 3s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            margin-top: 1rem;
         }
 
-        .btn:hover {
-            background: var(--accent-hover);
+        @keyframes rgb-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rgb-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .rgb-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+            box-shadow:
+                    0 0 30px rgba(255, 0, 0, 0.4),
+                    0 0 30px rgba(0, 255, 0, 0.4),
+                    0 0 30px rgba(0, 0, 255, 0.4);
+            animation-duration: 1.5s;
+        }
+
+        .rgb-btn:hover::before {
+            left: 100%;
+        }
+
+        .rgb-btn:active {
+            transform: translateY(0);
+        }
+
+        .rgb-btn i {
+            filter: drop-shadow(0 0 4px white);
         }
 
         .result-content {
@@ -438,8 +760,16 @@
             justify-content: space-between;
             padding: 0.75rem;
             margin-bottom: 0.5rem;
-            background: var(--bg-tertiary);
+            background: rgba(22, 33, 62, 0.5);
             border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        [data-theme="light"] .result-item {
+            background: rgba(241, 245, 249, 0.7);
+            border-color: rgba(0, 0, 0, 0.05);
         }
 
         .result-item .label {
@@ -453,7 +783,6 @@
             color: var(--accent-color);
         }
 
-        /* Navigation */
         .game-navigation {
             display: flex;
             align-items: center;
@@ -494,9 +823,8 @@
             font-size: 1rem;
         }
 
-        /* Moves Panel */
         .moves-panel {
-            width: 320px;
+            width: 100%;
         }
 
         .moves-list {
@@ -556,7 +884,70 @@
         .classification-dot.mistake { background: var(--mistake); }
         .classification-dot.blunder { background: var(--blunder); }
 
-        /* Summary */
+        /* Glass effect for number input */
+        .number-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(22, 33, 62, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        [data-theme="light"] .number-input-wrapper {
+            background: rgba(241, 245, 249, 0.7);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .number-input-wrapper:focus-within {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .number-input-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .number-input-wrapper input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .number-btn {
+            width: 42px;
+            height: 42px;
+            background: rgba(26, 26, 46, 0.5);
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .number-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        [data-theme="light"] .number-btn {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
         .summary-stats {
             background: var(--bg-tertiary);
             border-radius: 12px;
@@ -606,7 +997,6 @@
             border-radius: 6px;
         }
 
-        /* Loading */
         .loading-overlay {
             display: none;
             position: fixed;
@@ -635,7 +1025,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -650,18 +1039,124 @@
             border-radius: 4px;
         }
 
-        /* Responsive */
+        /* Analysis Result Panel Styles - Now on the right side */
+        .analysis-result-panel {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Game moves panel - appears below analysis when active */
+        .moves-container {
+            display: none;
+        }
+
+        .moves-container.active {
+            display: block;
+            grid-column: 1 / -1;
+            margin-top: 2rem;
+        }
+
         @media (max-width: 1400px) {
             main {
-                grid-template-columns: 1fr;
+                grid-template-columns: auto 1fr 380px;
                 justify-items: center;
             }
 
             .board-container,
-            .controls-panel,
-            .moves-panel {
+            .controls-panel {
                 width: 100%;
                 max-width: 600px;
+            }
+
+            .analysis-result-panel {
+                width: 100%;
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            main {
+                grid-template-columns: auto 1fr 380px;
+                grid-template-rows: auto auto;
+            }
+
+            .board-container {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .analysis-result-panel {
+                grid-column: 2;
+                grid-row: 1;
+                align-self: start;
+            }
+
+            .controls-panel {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                width: 100%;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+                margin-top: 70px;
+            }
+
+            header {
+                border-radius: 16px;
+                padding: 0.75rem 1rem;
+                top: 0.5rem;
+                left: 0.5rem;
+                right: 0.5rem;
+                max-width: calc(100% - 1rem);
+            }
+
+            .logo h1 {
+                font-size: 1.25rem;
+            }
+
+            main {
+                padding: 0 1rem;
+                margin-bottom: 1.5rem;
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .board-container,
+            .controls-panel,
+            .analysis-result-panel {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        /* For very small screens */
+        @media (max-width: 480px) {
+            body {
+                margin-top: 65px;
+            }
+
+            header {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .logo i {
+                font-size: 1.8rem;
+            }
+
+            .logo h1 {
+                font-size: 1.1rem;
+            }
+
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -682,17 +1177,35 @@
 </header>
 
 <main>
+    <!-- Column 1: Board and Eval Bar -->
     <div class="board-container">
         <div class="eval-bar">
             <div class="eval-fill" id="evalFill"></div>
             <span class="eval-text" id="evalText">0.0</span>
         </div>
         <div class="board-wrapper" id="boardWrapper">
+            <div class="turn-indicator white" id="turnIndicator">
+                <i class="fas fa-chess-king"></i>
+                <span>White to move</span>
+            </div>
             <div class="board-glow"></div>
             <div class="chess-board" id="chessBoard"></div>
         </div>
     </div>
 
+    <!-- Column 2: Analysis Result Panel (Right side) -->
+    <div class="analysis-result-panel">
+        <div class="card" id="analysisResult">
+            <h3>Analysis Result</h3>
+            <div class="result-content" id="resultContent">
+                <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+                    Enter a position or game to analyze
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Column 3: Controls Panel -->
     <div class="controls-panel">
         <div class="card">
             <div class="tabs">
@@ -708,11 +1221,24 @@
                            value="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1">
                 </div>
                 <div class="input-group">
-                    <label for="depthInput">Analysis Depth</label>
-                    <input type="number" id="depthInput" value="15" min="1" max="30">
+                    <label>Analysis Depth</label>
+                    <div class="number-input-wrapper">
+                        <button type="button" class="number-btn" onclick="adjustDepth('depthInput', -1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" id="depthInput" value="15" min="1" max="30" readonly>
+                        <button type="button" class="number-btn" onclick="adjustDepth('depthInput', 1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
                 <button class="btn" id="analyzeFen">
                     <i class="fas fa-search"></i> Analyze Position
+                </button>
+
+                <!-- NEW RGB BUTTON -->
+                <button class="rgb-btn" id="rearrangePosition">
+                    <i class="fas fa-random"></i> Rearrange Position
                 </button>
             </div>
 
@@ -723,21 +1249,24 @@
                               placeholder="Paste your PGN here..."></textarea>
                 </div>
                 <div class="input-group">
-                    <label for="pgnDepthInput">Analysis Depth</label>
-                    <input type="number" id="pgnDepthInput" value="15" min="1" max="30">
+                    <label for="pgnFile">Or Upload PGN File</label>
+                    <input type="file" id="pgnFile" accept=".pgn">
+                </div>
+                <div class="input-group">
+                    <label>Analysis Depth</label>
+                    <div class="number-input-wrapper">
+                        <button type="button" class="number-btn" onclick="adjustDepth('pgnDepthInput', -1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" id="pgnDepthInput" value="15" min="1" max="30" readonly>
+                        <button type="button" class="number-btn" onclick="adjustDepth('pgnDepthInput', 1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
                 <button class="btn" id="analyzeGame">
                     <i class="fas fa-chess"></i> Analyze Game
                 </button>
-            </div>
-        </div>
-
-        <div class="card" id="analysisResult">
-            <h3>Analysis Result</h3>
-            <div class="result-content" id="resultContent">
-                <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
-                    Enter a position or game to analyze
-                </p>
             </div>
         </div>
 
@@ -750,19 +1279,24 @@
         </div>
     </div>
 
-    <div class="moves-panel card" id="movesPanel" style="display: none;">
+
+</main>
+
+<!-- Moves Panel - Appears below when analyzing a game -->
+<div class="moves-container" id="movesContainer">
+    <div class="moves-panel card">
         <h3>Move List</h3>
         <div class="moves-list" id="movesList"></div>
         <div class="summary-stats" id="gameSummary"></div>
     </div>
-</main>
+</div>
 
 <div class="loading-overlay" id="loadingOverlay">
     <div class="spinner"></div>
 </div>
 
 <script>
-    // Piece Images from Wikimedia Commons (Cburnett pieces)
+    // UPDATED: Using proper chess piece icons similar to the screenshot
     const PIECE_IMAGES = {
         'K': 'https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg',
         'Q': 'https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg',
@@ -792,16 +1326,22 @@
         constructor(containerId) {
             this.container = document.getElementById(containerId);
             this.boardWrapper = document.getElementById('boardWrapper');
+            this.turnIndicator = document.getElementById('turnIndicator');
             this.position = this.fenToPosition('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+            this.selectedSquare = null;
+            this.possibleMoves = [];
+            this.turn = 'w';
             this.highlightedSquares = { from: null, to: null };
             this.currentClassification = null;
-            this.render();
+            this.renderBoard();
+            this.updateTurnIndicator();
         }
 
         fenToPosition(fen) {
             const position = {};
             const fenParts = fen.split(' ');
             const rows = fenParts[0].split('/');
+            this.turn = fenParts[1] || 'w';
 
             for (let row = 0; row < 8; row++) {
                 let col = 0;
@@ -818,16 +1358,393 @@
             return position;
         }
 
+        positionToFen() {
+            let fen = '';
+            for (let row = 0; row < 8; row++) {
+                let empty = 0;
+                for (let col = 0; col < 8; col++) {
+                    const square = String.fromCharCode(97 + col) + (8 - row);
+                    if (this.position[square]) {
+                        if (empty > 0) {
+                            fen += empty;
+                            empty = 0;
+                        }
+                        fen += this.position[square];
+                    } else {
+                        empty++;
+                    }
+                }
+                if (empty > 0) fen += empty;
+                if (row < 7) fen += '/';
+            }
+            return fen + ' ' + this.turn + ' KQkq - 0 1';
+        }
+
         setPosition(fen) {
             this.position = this.fenToPosition(fen);
-            this.render();
+            this.selectedSquare = null;
+            this.possibleMoves = [];
+            this.updateTurnIndicator();
+            this.renderBoard();
+        }
+
+        updateTurnIndicator(whiteWinChance = 50, blackWinChance = 50) {
+            const turnText = this.turn === 'w' ? 'White' : 'Black';
+            this.turnIndicator.className = 'turn-indicator';
+            this.turnIndicator.innerHTML = `
+        <div class="turn-section white-chance">
+            <span class="label">White Win %</span>
+            <span class="value">${whiteWinChance.toFixed(1)}%</span>
+        </div>
+        <div class="turn-section current-turn">
+            <span class="label">To Move</span>
+            <span class="value"><i class="fas fa-chess-king"></i> ${turnText}</span>
+        </div>
+        <div class="turn-section black-chance">
+            <span class="label">Black Win %</span>
+            <span class="value">${blackWinChance.toFixed(1)}%</span>
+        </div>
+    `;
+        }
+
+
+        isWhitePiece(piece) {
+            return piece === piece.toUpperCase();
+        }
+
+        canPieceMove(square) {
+            const piece = this.position[square];
+            if (!piece) return false;
+            return (this.turn === 'w' && this.isWhitePiece(piece)) ||
+                (this.turn === 'b' && !this.isWhitePiece(piece));
+        }
+
+        getPossibleMoves(square) {
+            const piece = this.position[square];
+            if (!piece) return [];
+
+            const moves = [];
+            const pieceType = piece.toUpperCase();
+            const [file, rank] = [square.charCodeAt(0) - 97, parseInt(square[1]) - 1];
+            const isWhite = this.isWhitePiece(piece);
+
+            switch (pieceType) {
+                case 'P':
+                    moves.push(...this.getPawnMoves(file, rank, isWhite));
+                    break;
+                case 'N':
+                    moves.push(...this.getKnightMoves(file, rank, isWhite));
+                    break;
+                case 'B':
+                    moves.push(...this.getBishopMoves(file, rank, isWhite));
+                    break;
+                case 'R':
+                    moves.push(...this.getRookMoves(file, rank, isWhite));
+                    break;
+                case 'Q':
+                    moves.push(...this.getQueenMoves(file, rank, isWhite));
+                    break;
+                case 'K':
+                    moves.push(...this.getKingMoves(file, rank, isWhite));
+                    break;
+            }
+
+            return moves.filter(move => {
+                const originalPiece = this.position[move.square];
+                this.position[move.square] = this.position[square];
+                delete this.position[square];
+
+                const kingSquare = this.findKing(isWhite);
+                const inCheck = this.isSquareAttacked(kingSquare, !isWhite);
+
+                this.position[square] = this.position[move.square];
+                this.position[move.square] = originalPiece;
+
+                return !inCheck;
+            });
+        }
+
+        findKing(isWhite) {
+            for (const [square, piece] of Object.entries(this.position)) {
+                if (piece.toUpperCase() === 'K' && this.isWhitePiece(piece) === isWhite) {
+                    return square;
+                }
+            }
+            return null;
+        }
+
+        isSquareAttacked(square, byWhite) {
+            if (!square) return false;
+
+            const [file, rank] = [square.charCodeAt(0) - 97, parseInt(square[1]) - 1];
+
+            const knightMoves = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
+            for (const [df, dr] of knightMoves) {
+                const target = this.makeSquare(file + df, rank + dr);
+                const piece = this.position[target];
+                if (piece && piece.toUpperCase() === 'N' && this.isWhitePiece(piece) === byWhite) {
+                    return true;
+                }
+            }
+
+            const pawnDirection = byWhite ? 1 : -1;
+            for (const df of [-1, 1]) {
+                const target = this.makeSquare(file + df, rank + pawnDirection);
+                const piece = this.position[target];
+                if (piece && piece.toUpperCase() === 'P' && this.isWhitePiece(piece) === byWhite) {
+                    return true;
+                }
+            }
+
+            const directions = [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+            for (const [df, dr] of directions) {
+                let f = file + df;
+                let r = rank + dr;
+                let steps = 0;
+
+                while (true) {
+                    const target = this.makeSquare(f, r);
+                    if (!target) break;
+
+                    const piece = this.position[target];
+                    if (piece) {
+                        if (this.isWhitePiece(piece) === byWhite) {
+                            const type = piece.toUpperCase();
+                            if (steps === 0) {
+                                if (type === 'K') return true;
+                            }
+                            if (Math.abs(df) > 0 && Math.abs(dr) > 0) {
+                                if (type === 'B' || type === 'Q') return true;
+                            } else {
+                                if (type === 'R' || type === 'Q') return true;
+                            }
+                        }
+                        break;
+                    }
+
+                    f += df;
+                    r += dr;
+                    steps++;
+                }
+            }
+
+            return false;
+        }
+
+        getPawnMoves(file, rank, isWhite) {
+            const moves = [];
+            const direction = isWhite ? 1 : -1;
+            const startRank = isWhite ? 1 : 6;
+
+            const forward = this.makeSquare(file, rank + direction);
+            if (forward && !this.position[forward]) {
+                moves.push({ square: forward, capture: false });
+
+                if (rank === startRank) {
+                    const doubleForward = this.makeSquare(file, rank + 2 * direction);
+                    if (doubleForward && !this.position[doubleForward]) {
+                        moves.push({ square: doubleForward, capture: false });
+                    }
+                }
+            }
+
+            for (const fileOffset of [-1, 1]) {
+                const captureSquare = this.makeSquare(file + fileOffset, rank + direction);
+                if (captureSquare && this.position[captureSquare] &&
+                    this.isWhitePiece(this.position[captureSquare]) !== isWhite) {
+                    moves.push({ square: captureSquare, capture: true });
+                }
+            }
+
+            return moves;
+        }
+
+        getKnightMoves(file, rank, isWhite) {
+            const moves = [];
+            const offsets = [
+                [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+                [1, -2], [1, 2], [2, -1], [2, 1]
+            ];
+
+            for (const [df, dr] of offsets) {
+                const square = this.makeSquare(file + df, rank + dr);
+                if (square) {
+                    if (!this.position[square]) {
+                        moves.push({ square, capture: false });
+                    } else if (this.isWhitePiece(this.position[square]) !== isWhite) {
+                        moves.push({ square, capture: true });
+                    }
+                }
+            }
+
+            return moves;
+        }
+
+        getBishopMoves(file, rank, isWhite) {
+            return this.getSlidingMoves(file, rank, isWhite, [
+                [1, 1], [1, -1], [-1, 1], [-1, -1]
+            ]);
+        }
+
+        getRookMoves(file, rank, isWhite) {
+            return this.getSlidingMoves(file, rank, isWhite, [
+                [0, 1], [0, -1], [1, 0], [-1, 0]
+            ]);
+        }
+
+        getQueenMoves(file, rank, isWhite) {
+            return this.getSlidingMoves(file, rank, isWhite, [
+                [0, 1], [0, -1], [1, 0], [-1, 0],
+                [1, 1], [1, -1], [-1, 1], [-1, -1]
+            ]);
+        }
+
+        getKingMoves(file, rank, isWhite) {
+            const moves = [];
+            const offsets = [
+                [0, 1], [0, -1], [1, 0], [-1, 0],
+                [1, 1], [1, -1], [-1, 1], [-1, -1]
+            ];
+
+            for (const [df, dr] of offsets) {
+                const square = this.makeSquare(file + df, rank + dr);
+                if (square) {
+                    if (!this.position[square]) {
+                        moves.push({ square, capture: false });
+                    } else if (this.isWhitePiece(this.position[square]) !== isWhite) {
+                        moves.push({ square, capture: true });
+                    }
+                }
+            }
+
+            return moves;
+        }
+
+        getSlidingMoves(file, rank, isWhite, directions) {
+            const moves = [];
+
+            for (const [df, dr] of directions) {
+                let f = file + df;
+                let r = rank + dr;
+
+                while (true) {
+                    const square = this.makeSquare(f, r);
+                    if (!square) break;
+
+                    if (!this.position[square]) {
+                        moves.push({ square, capture: false });
+                    } else {
+                        if (this.isWhitePiece(this.position[square]) !== isWhite) {
+                            moves.push({ square, capture: true });
+                        }
+                        break;
+                    }
+
+                    f += df;
+                    r += dr;
+                }
+            }
+
+            return moves;
+        }
+
+        makeSquare(file, rank) {
+            if (file < 0 || file > 7 || rank < 0 || rank > 7) return null;
+            return String.fromCharCode(97 + file) + (rank + 1);
+        }
+
+        handleSquareClick(square) {
+            if (this.selectedSquare) {
+                const move = this.possibleMoves.find(m => m.square === square);
+                if (move) {
+                    this.makeMove(this.selectedSquare, square, move.capture);
+                } else if (this.position[square] && this.canPieceMove(square)) {
+                    this.selectedSquare = square;
+                    this.possibleMoves = this.getPossibleMoves(square);
+                    this.renderBoard();
+                } else {
+                    this.selectedSquare = null;
+                    this.possibleMoves = [];
+                    this.renderBoard();
+                }
+            } else if (this.position[square] && this.canPieceMove(square)) {
+                this.selectedSquare = square;
+                this.possibleMoves = this.getPossibleMoves(square);
+                this.renderBoard();
+            }
+        }
+
+        makeMove(from, to, isCapture) {
+            this.position[to] = this.position[from];
+            delete this.position[from];
+
+            this.turn = this.turn === 'w' ? 'b' : 'w';
+            this.selectedSquare = null;
+            this.possibleMoves = [];
+
+            const fenInput = document.getElementById('fenInput');
+            if (fenInput) {
+                fenInput.value = this.positionToFen();
+            }
+
+            this.updateTurnIndicator();
+            this.renderBoard();
+        }
+
+        rearrangePosition() {
+            // Get all squares with pieces
+            const squaresWithPieces = Object.keys(this.position);
+
+            if (squaresWithPieces.length === 0) return;
+
+            // Randomize piece positions
+            const pieces = Object.values(this.position);
+            shuffleArray(pieces);
+
+            // Clear current position
+            this.position = {};
+
+            // Distribute pieces randomly on the board
+            const allSquares = [];
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    allSquares.push(String.fromCharCode(97 + col) + (8 - row));
+                }
+            }
+
+            shuffleArray(allSquares);
+
+            // Place pieces on random squares
+            for (let i = 0; i < Math.min(pieces.length, 32); i++) {
+                this.position[allSquares[i]] = pieces[i];
+            }
+
+            // Randomize turn
+            this.turn = Math.random() > 0.5 ? 'w' : 'b';
+
+            // Update FEN input
+            const fenInput = document.getElementById('fenInput');
+            if (fenInput) {
+                fenInput.value = this.positionToFen();
+            }
+
+            this.clearHighlights();
+            this.updateTurnIndicator();
+            this.renderBoard();
+
+            // Add a fun RGB animation effect to the board
+            const boardWrapper = document.getElementById('boardWrapper');
+            boardWrapper.style.animation = 'none';
+            setTimeout(() => {
+                boardWrapper.style.animation = 'rgb-board-glow 2s ease';
+            }, 10);
         }
 
         highlightMove(from, to, classification) {
             this.highlightedSquares = { from, to };
             this.currentClassification = classification;
             this.updateBoardGlow(classification);
-            this.render();
+            this.renderBoard();
         }
 
         updateBoardGlow(classification) {
@@ -841,48 +1758,88 @@
             this.highlightedSquares = { from: null, to: null };
             this.currentClassification = null;
             this.boardWrapper.className = 'board-wrapper';
-            this.render();
+            this.renderBoard();
         }
 
-        render() {
+        renderBoard() {
             this.container.innerHTML = '';
 
-            for (let row = 0; row < 8; row++) {
-                for (let col = 0; col < 8; col++) {
-                    const square = String.fromCharCode(97 + col) + (8 - row);
-                    const isLight = (row + col) % 2 === 0;
+            // Create the 9x9 grid for coordinates + squares
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const cell = document.createElement('div');
 
-                    const squareDiv = document.createElement('div');
-                    squareDiv.className = `square ${isLight ? 'light' : 'dark'}`;
-                    squareDiv.dataset.square = square;
-
-                    if (this.highlightedSquares.from === square) {
-                        squareDiv.classList.add('highlight-from');
+                    // Top-left corner (empty)
+                    if (row === 8 && col === 0) {
+                        cell.className = 'board-coordinate';
+                        cell.style.visibility = 'hidden';
                     }
+                    // Rank numbers (1-8) on left side
+                    else if (col === 0 && row < 8) {
+                        cell.className = 'board-coordinate rank-coordinate';
+                        cell.textContent = (8 - row);
+                    }
+                    // File letters (a-h) at bottom
+                    else if (row === 8 && col > 0) {
+                        cell.className = 'board-coordinate file-coordinate';
+                        cell.textContent = String.fromCharCode(96 + col);
+                    }
+                    // The actual chess squares
+                    else if (col > 0 && row < 8) {
+                        const square = String.fromCharCode(96 + col) + (8 - row);
+                        const isLight = (row + col) % 2 === 1;
 
-                    if (this.highlightedSquares.to === square) {
-                        squareDiv.classList.add('highlight-to');
+                        cell.className = `square ${isLight ? 'light' : 'dark'}`;
+                        cell.dataset.square = square;
 
-                        if (this.currentClassification && CLASSIFICATION_SYMBOLS[this.currentClassification]) {
-                            const badge = document.createElement('div');
-                            badge.className = 'move-badge';
-                            badge.style.background = `var(--${this.currentClassification.toLowerCase()})`;
-                            badge.textContent = CLASSIFICATION_SYMBOLS[this.currentClassification];
-                            squareDiv.appendChild(badge);
+                        cell.addEventListener('click', () => this.handleSquareClick(square));
+
+                        if (this.selectedSquare === square) {
+                            cell.classList.add('selected');
+                        }
+
+                        if (this.highlightedSquares.from === square) {
+                            cell.classList.add('highlight-from');
+                        }
+
+                        if (this.highlightedSquares.to === square) {
+                            cell.classList.add('highlight-to');
+
+                            if (this.currentClassification && CLASSIFICATION_SYMBOLS[this.currentClassification]) {
+                                const badge = document.createElement('div');
+                                badge.className = 'move-badge';
+                                badge.style.background = `var(--${this.currentClassification.toLowerCase()})`;
+                                badge.textContent = CLASSIFICATION_SYMBOLS[this.currentClassification];
+                                cell.appendChild(badge);
+                            }
+                        }
+
+                        const possibleMove = this.possibleMoves.find(m => m.square === square);
+                        if (possibleMove) {
+                            cell.classList.add(possibleMove.capture ? 'possible-capture' : 'possible-move');
+                        }
+
+                        if (this.position[square]) {
+                            const pieceDiv = document.createElement('div');
+                            pieceDiv.className = 'piece';
+                            pieceDiv.style.backgroundImage = `url('${PIECE_IMAGES[this.position[square]]}')`;
+                            cell.appendChild(pieceDiv);
                         }
                     }
 
-                    if (this.position[square]) {
-                        const pieceDiv = document.createElement('div');
-                        pieceDiv.className = 'piece';
-                        pieceDiv.style.backgroundImage = `url('${PIECE_IMAGES[this.position[square]]}')`;
-                        squareDiv.appendChild(pieceDiv);
-                    }
-
-                    this.container.appendChild(squareDiv);
+                    this.container.appendChild(cell);
                 }
             }
         }
+    }
+
+    // Helper function to shuffle array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     function algebraicToSquares(move) {
@@ -895,7 +1852,6 @@
         return { from: null, to: null };
     }
 
-    // App State
     let chessBoard;
     let currentGameAnalysis = null;
     let currentMoveIndex = -1;
@@ -939,10 +1895,35 @@
         document.getElementById('fenInput').addEventListener('input', (e) => {
             try {
                 const fen = e.target.value.trim();
-                if (fen) chessBoard.setPosition(fen);
+                if (fen) {
+                    chessBoard.setPosition(fen);
+                }
             } catch (err) {
                 console.log('Invalid FEN');
             }
+        });
+
+        document.getElementById('pgnFile').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    document.getElementById('pgnInput').value = event.target.result;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // NEW: Rearrange Position button event listener
+        document.getElementById('rearrangePosition').addEventListener('click', () => {
+            chessBoard.rearrangePosition();
+
+            // Add visual feedback
+            const btn = document.getElementById('rearrangePosition');
+            btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Rearranging...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-random"></i> Rearrange Position';
+            }, 800);
         });
 
         document.getElementById('analyzeFen').addEventListener('click', analyzePosition);
@@ -976,28 +1957,151 @@
         showLoading();
 
         try {
-            const response = await fetch(`/api/chess/analyze?fen=${encodeURIComponent(fen)}&depth=${depth}&mode=bestmove`);
-            const data = await response.json();
+            const response = await fetch('http://localhost:8080/api/chess/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    fen: fen,
+                    depth: depth,
+                    mode: 'bestmove'
+                })
+            });
 
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
             hideLoading();
 
             if (data.success) {
                 displayPositionAnalysis(data);
-                chessBoard.setPosition(fen);
-
+                updateEvalBar(data.evaluation, data.mate);
                 if (data.bestMove) {
                     const squares = algebraicToSquares(data.bestMove);
-                    chessBoard.highlightMove(squares.from, squares.to, 'Best');
+                    chessBoard.highlightMove(squares.from, squares.to, data.topMoves?.[0]?.classification);
                 }
-
-                updateEvalBar(data.evaluation, data.mate);
             } else {
                 showError(data.message || 'Analysis failed');
             }
         } catch (err) {
             hideLoading();
-            showError('Failed to connect to server: ' + err.message);
+
+            // Fallback to mock data if backend is unavailable
+            console.warn('Backend connection failed, using mock data:', err.message);
+            const mockData = createMockAnalysis(fen, depth);
+            displayPositionAnalysis(mockData);
+            showError('Connected to mock service - Backend unavailable: ' + err.message);
         }
+    }
+
+    function createMockAnalysis(fen, depth) {
+        const evaluations = [25, -15, 80, -45, 120];
+        const moves = ['e2e4', 'd7d5', 'g1f3', 'c7c6', 'f1c4'];
+        const sanMoves = ['e4', 'd5', 'Nf3', 'c6', 'Bc4'];
+
+        const randomEval = evaluations[Math.floor(Math.random() * evaluations.length)];
+        const randomMove = moves[Math.floor(Math.random() * moves.length)];
+        const randomSan = sanMoves[moves.indexOf(randomMove)];
+
+        const classification = randomEval > 100 ? 'Great' :
+            randomEval > 50 ? 'Good' :
+                randomEval > 0 ? 'Best' :
+                    randomEval > -30 ? 'Inaccuracy' :
+                        randomEval > -80 ? 'Mistake' : 'Blunder';
+
+        const topMoves = [];
+        for (let i = 0; i < 3; i++) {
+            const moveIdx = (i + 1) % moves.length;
+            const evalChange = i * 15;
+            topMoves.push({
+                move: moves[moveIdx],
+                san: sanMoves[moveIdx],
+                evaluation: randomEval - evalChange,
+                mate: i === 0 && randomEval > 150 ? 3 : null,
+                winChance: 50 + (randomEval - evalChange) / 2,
+                evalChange: evalChange / 100,
+                classification: i === 0 ? classification :
+                    evalChange < 15 ? 'Good' :
+                        evalChange < 30 ? 'Inaccuracy' : 'Mistake'
+            });
+        }
+
+        return {
+            success: true,
+            fen: fen,
+            bestMove: randomMove,
+            bestMoveSan: randomSan,
+            evaluation: randomEval,
+            mate: randomEval > 150 ? 3 : null,
+            winChance: 50 + randomEval / 2,
+            topMoves: topMoves,
+            message: 'Mock analysis (backend offline)'
+        };
+    }
+
+    function createMockGameAnalysis(pgn) {
+        const moves = extractMovesFromPgn(pgn);
+        const moveAnalyses = [];
+
+        for (let i = 0; i < moves.length; i++) {
+            const evalChange = (Math.random() - 0.5) * 100;
+            const classification = Math.abs(evalChange) < 10 ? 'Best' :
+                Math.abs(evalChange) < 25 ? 'Good' :
+                    Math.abs(evalChange) < 50 ? 'Inaccuracy' :
+                        Math.abs(evalChange) < 100 ? 'Mistake' : 'Blunder';
+
+            moveAnalyses.push({
+                moveNumber: Math.floor(i/2) + 1,
+                move: moves[i],
+                moveClassification: classification,
+                evaluationBefore: 50 - evalChange,
+                evaluationAfter: 50,
+                evaluationDrop: Math.abs(evalChange),
+                bestMove: moves[i],
+                player: i % 2 === 0 ? 'White' : 'Black'
+            });
+        }
+
+        return {
+            success: true,
+            moves: moveAnalyses,
+            summary: {
+                whiteAccuracy: 85.5,
+                blackAccuracy: 78.3,
+                whiteBrilliant: 1,
+                whiteGreat: 3,
+                whiteGood: 12,
+                whiteInaccuracy: 2,
+                whiteMistake: 1,
+                whiteBlunder: 0,
+                blackBrilliant: 0,
+                blackGreat: 2,
+                blackGood: 10,
+                blackInaccuracy: 3,
+                blackMistake: 2,
+                blackBlunder: 1,
+                totalMoves: moveAnalyses.length
+            },
+            message: 'Mock game analysis (backend offline)'
+        };
+    }
+
+    function extractMovesFromPgn(pgn) {
+        const moves = [];
+        const moveRegex = /\d+\.\s+(\S+)(?:\s+(\S+))?/g;
+        let match;
+
+        while ((match = moveRegex.exec(pgn)) !== null) {
+            if (match[1]) moves.push(match[1]);
+            if (match[2]) moves.push(match[2]);
+        }
+
+        return moves.slice(0, 20);
     }
 
     async function analyzeGame() {
@@ -1012,62 +2116,111 @@
         showLoading();
 
         try {
-            const response = await fetch('/api/chess/analyze-game', {
+            const response = await fetch('http://localhost:8080/api/chess/analyze-game', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pgn, depth })
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    pgn: pgn,
+                    depth: depth
+                })
             });
-            const data = await response.json();
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
             hideLoading();
 
             if (data.success) {
                 currentGameAnalysis = data;
-                currentMoveIndex = -1;
                 displayGameAnalysis(data);
-                document.getElementById('movesPanel').style.display = 'block';
                 document.getElementById('gameNavigation').style.display = 'flex';
+                document.getElementById('movesContainer').classList.add('active');
                 goToMove(0);
             } else {
                 showError(data.message || 'Game analysis failed');
             }
         } catch (err) {
             hideLoading();
-            showError('Failed to analyze game: ' + err.message);
+
+            // Fallback to mock game analysis
+            console.warn('Backend connection failed for game analysis:', err.message);
+            const mockGame = createMockGameAnalysis(pgn);
+            currentGameAnalysis = mockGame;
+            displayGameAnalysis(mockGame);
+            document.getElementById('gameNavigation').style.display = 'flex';
+            document.getElementById('movesContainer').classList.add('active');
+            goToMove(0);
+            showError('Using mock analysis - Backend unavailable: ' + err.message);
         }
+    }
+
+    function showLoading() {
+        document.getElementById('loadingOverlay').classList.add('active');
+    }
+
+    function hideLoading() {
+        document.getElementById('loadingOverlay').classList.remove('active');
+    }
+
+    function showError(message) {
+        document.getElementById('resultContent').innerHTML = `
+            <p style="color: var(--blunder); text-align: center; padding: 1rem;">
+                <i class="fas fa-exclamation-triangle"></i> ${message}
+            </p>`;
+    }
+
+    function formatEval(evaluation, mate) {
+        if (mate !== null && mate !== undefined) {
+            return `M${mate > 0 ? '+' : ''}${mate}`;
+        }
+        if (evaluation !== null && evaluation !== undefined) {
+            const val = evaluation / 100;
+            return (val >= 0 ? '+' : '') + val.toFixed(2);
+        }
+        return '0.00';
     }
 
     function displayPositionAnalysis(data) {
         const content = document.getElementById('resultContent');
 
-        let evalText = 'N/A';
-        if (data.mate !== null && data.mate !== undefined) {
-            evalText = `Mate in ${Math.abs(data.mate)}`;
-        } else if (data.evaluation !== null && data.evaluation !== undefined) {
-            const evalValue = data.evaluation / 100;
-            evalText = (evalValue >= 0 ? '+' : '') + evalValue.toFixed(2);
+        let evalText = formatEval(data.evaluation, data.mate);
+        let winChance = data.winChance ? data.winChance.toFixed(1) : '50.0';
+
+        let html = `
+            <div class="result-item">
+                <span class="label">Best Move</span>
+                <span class="value">${data.bestMoveSan || data.bestMove || 'N/A'}</span>
+            </div>
+            <div class="result-item">
+                <span class="label">Evaluation</span>
+                <span class="value">${evalText}</span>
+            </div>
+            <div class="result-item">
+                <span class="label">Win Chance</span>
+                <span class="value">${winChance}%</span>
+            </div>
+        `;
+
+        if (data.topMoves && data.topMoves.length > 0) {
+            html += `<h4 style="margin: 1rem 0 0.5rem; font-size: 0.9rem;">Top Moves</h4>`;
+            data.topMoves.forEach((move, i) => {
+                const evalStr = formatEval(move.evaluation, move.mate);
+                const lossStr = move.evalChange ? ` (${move.evalChange > 0 ? '-' : '+'}${Math.abs(move.evalChange).toFixed(2)})` : '';
+                const classStyle = move.classification ?
+                    `border-left: 3px solid var(--${move.classification.toLowerCase()});` : '';
+                html += `<div class="result-item" style="${classStyle}">
+                    <span class="label">${i + 1}. ${move.san || move.move}</span>
+                    <span class="value">${evalStr}${lossStr}</span>
+                </div>`;
+            });
         }
 
-        content.innerHTML = `
-        <div class="result-item">
-            <span class="label">Best Move</span>
-            <span class="value">${data.bestMove || 'N/A'}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Evaluation</span>
-            <span class="value">${evalText}</span>
-        </div>
-        ${data.ponder ? `
-        <div class="result-item">
-            <span class="label">Ponder</span>
-            <span class="value">${data.ponder}</span>
-        </div>` : ''}
-        ${data.continuation ? `
-        <div class="result-item">
-            <span class="label">Continuation</span>
-            <span class="value" style="font-size: 0.8rem;">${data.continuation}</span>
-        </div>` : ''}
-    `;
+        content.innerHTML = html;
     }
 
     function displayGameAnalysis(data) {
@@ -1082,19 +2235,19 @@
 
             movesHtml += `<span class="move-number">${moveNum}.</span>`;
             movesHtml += `
-            <div class="move-item" data-index="${i}">
-                <span class="classification-dot ${(whiteMove.classification || '').toLowerCase()}"></span>
-                <span>${whiteMove.san || whiteMove.move}</span>
-            </div>
-        `;
+                <div class="move-item" data-index="${i}">
+                    <span class="classification-dot ${(whiteMove.classification || '').toLowerCase()}"></span>
+                    <span>${whiteMove.san || whiteMove.move}</span>
+                </div>
+            `;
 
             if (blackMove) {
                 movesHtml += `
-                <div class="move-item" data-index="${i + 1}">
-                    <span class="classification-dot ${(blackMove.classification || '').toLowerCase()}"></span>
-                    <span>${blackMove.san || blackMove.move}</span>
-                </div>
-            `;
+                    <div class="move-item" data-index="${i + 1}">
+                        <span class="classification-dot ${(blackMove.classification || '').toLowerCase()}"></span>
+                        <span>${blackMove.san || blackMove.move}</span>
+                    </div>
+                `;
             } else {
                 movesHtml += '<div></div>';
             }
@@ -1111,36 +2264,36 @@
         if (data.summary) {
             const s = data.summary;
             summary.innerHTML = `
-            <h4 style="margin-bottom: 1rem; font-size: 1rem;">Game Summary</h4>
-            <div class="player-stats">
-                <h5>♔ White - ${s.whiteAccuracy || 0}% Accuracy</h5>
-                <div class="accuracy-bar">
-                    <div class="accuracy-fill" style="width: ${s.whiteAccuracy || 50}%;"></div>
+                <h4 style="margin-bottom: 1rem; font-size: 1rem;">Game Summary</h4>
+                <div class="player-stats">
+                    <h5>♔ White - ${s.whiteAccuracy || 0}% Accuracy</h5>
+                    <div class="accuracy-bar">
+                        <div class="accuracy-fill" style="width: ${s.whiteAccuracy || 50}%;"></div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item"><span class="dot" style="background: var(--brilliant); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.whiteBrilliant || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--great); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.whiteGreat || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--best); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.whiteBest || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--inaccuracy); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.whiteInaccuracy || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--mistake); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.whiteMistake || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--blunder); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.whiteBlunder || 0}</div>
+                    </div>
                 </div>
-                <div class="stats-grid">
-                    <div class="stat-item"><span class="dot" style="background: var(--brilliant);"></span>${s.whiteBrilliant || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--great);"></span>${s.whiteGreat || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--best);"></span>${s.whiteBest || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--inaccuracy);"></span>${s.whiteInaccuracy || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--mistake);"></span>${s.whiteMistake || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--blunder);"></span>${s.whiteBlunder || 0}</div>
+                <div class="player-stats">
+                    <h5>♚ Black - ${s.blackAccuracy || 0}% Accuracy</h5>
+                    <div class="accuracy-bar">
+                        <div class="accuracy-fill" style="width: ${s.blackAccuracy || 50}%;"></div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item"><span class="dot" style="background: var(--brilliant); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.blackBrilliant || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--great); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.blackGreat || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--best); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.blackBest || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--inaccuracy); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.blackInaccuracy || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--mistake); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.blackMistake || 0}</div>
+                        <div class="stat-item"><span class="dot" style="background: var(--blunder); width: 8px; height: 8px; border-radius: 50%; display: inline-block;"></span> ${s.blackBlunder || 0}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="player-stats">
-                <h5>♚ Black - ${s.blackAccuracy || 0}% Accuracy</h5>
-                <div class="accuracy-bar">
-                    <div class="accuracy-fill" style="width: ${s.blackAccuracy || 50}%;"></div>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-item"><span class="dot" style="background: var(--brilliant);"></span>${s.blackBrilliant || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--great);"></span>${s.blackGreat || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--best);"></span>${s.blackBest || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--inaccuracy);"></span>${s.blackInaccuracy || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--mistake);"></span>${s.blackMistake || 0}</div>
-                    <div class="stat-item"><span class="dot" style="background: var(--blunder);"></span>${s.blackBlunder || 0}</div>
-                </div>
-            </div>
-        `;
+            `;
         }
     }
 
@@ -1179,39 +2332,47 @@
         }
     }
 
-    function updateEvalBar(evaluation, mate) {
+    function updateEvalBar(evaluation, mate, updateIndicator = true) {
         const evalFill = document.getElementById('evalFill');
         const evalText = document.getElementById('evalText');
 
         let percentage = 50;
         let displayText = '0.0';
+        let whiteChance = 50;
+        let blackChance = 50;
 
         if (mate !== null && mate !== undefined) {
             percentage = mate > 0 ? 95 : 5;
-            displayText = `M${Math.abs(mate)}`;
+            displayText = `M${mate > 0 ? '+' : ''}${mate}`;
+            whiteChance = mate > 0 ? 99 : 1;
+            blackChance = mate > 0 ? 1 : 99;
         } else if (evaluation !== null && evaluation !== undefined) {
-            const evalValue = typeof evaluation === 'number' ? evaluation / 100 : parseFloat(evaluation);
-            percentage = 50 + (Math.atan(evalValue / 2) / Math.PI) * 100;
-            percentage = Math.max(5, Math.min(95, percentage));
-            displayText = (evalValue >= 0 ? '+' : '') + evalValue.toFixed(1);
+            const cp = evaluation / 100;
+            percentage = 50 + (50 * (2 / (1 + Math.exp(-0.4 * cp)) - 1));
+            displayText = `0 ${cp >= 0 ? '+' : '-'} ${Math.abs(cp).toFixed(1)}`;
+            whiteChance = percentage;
+            blackChance = 100 - percentage;
         }
 
         evalFill.style.height = `${percentage}%`;
         evalText.textContent = displayText;
+
+        if (updateIndicator && chessBoard) {
+            chessBoard.updateTurnIndicator(whiteChance, blackChance);
+        }
     }
 
-    function showLoading() {
-        document.getElementById('loadingOverlay').classList.add('active');
-    }
 
-    function hideLoading() {
-        document.getElementById('loadingOverlay').classList.remove('active');
-    }
+    function adjustDepth(inputId, delta) {
+        const input = document.getElementById(inputId);
+        const min = parseInt(input.min) || 1;
+        const max = parseInt(input.max) || 30;
+        let value = parseInt(input.value) || 15;
 
-    function showError(message) {
-        document.getElementById('resultContent').innerHTML = `
-        <p style="color: var(--blunder); text-align: center; padding: 1rem;">${message}</p>
-    `;
+        value += delta;
+        value = Math.max(min, Math.min(max, value));
+
+        input.value = value;
     }
 </script>
 </body>
